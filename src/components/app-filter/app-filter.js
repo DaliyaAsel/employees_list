@@ -1,12 +1,31 @@
 import './app-filter.css';
 
-function AppFilter() {
+const AppFilter = (props)  => {
+    
+    // формируем кнопки в виде массива данных
+    const buttonsData = [
+        {name: 'all', label: 'Все сотрудники'}, // label - это то что будет написано внутри кнопкок, name - это как раз фильтер из switch case, метода filterPost app.js
+        {name: 'like', label: 'На повышение'},
+        {name: 'salary', label: 'З/п больше 1000$'}
+    ];
+
+    const buttons = buttonsData.map(({name, label}) => {
+        const active = props.filterBtn === name; // для определения, активный обьект или нет, чтобы изменять эффеткы кнопки. По умолчанию в app.js filterBtn: 'all'
+        const clazz = active ? 'btn-light' : 'btn-outline-light';
+
+        return (
+            <button className={`btn ${clazz}`} 
+            type="button" 
+            key={name} 
+            onClick={() => props.onBtnFilterSelect(name)} > 
+            {label} 
+            </button>
+        )
+    }) 
+
     return (
         <div>
-            <div className="btn-group">
-                <button className="btn btn-light" type="button"> Все сотрудники </button>
-                <button className="btn btn-outline-light" type="button"> На повышение </button>
-                <button className="btn btn-outline-light" type="button"> З/п больше 1000$ </button>
+            <div className="btn-group"> {buttons}
             </div>
         </div>
     )

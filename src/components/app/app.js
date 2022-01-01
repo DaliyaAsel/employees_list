@@ -18,7 +18,9 @@ class App extends Component {
         {name:"Asel", salary: 600000, increase: false, like: true, id: 1 },
         {name:"Busel", salary: 68000, increase: false, like: false, id: 2},
         {name:"Tosel", salary: 90000, increase: true, like: false, id: 3},
-      ]
+      ],
+      term: '',
+      filterBtn: 'all'
     }
 
     this.maxId = 4; // это для генерации id у добавленных элементов
@@ -61,20 +63,57 @@ onToggleProp = (id, prop) => { //переключатель с true  на false.
   }))
 }
 
+
+// метод для поиска items - где ищем, term - что ищем
+ searchEmployee = (items, term) => {
+     if (term.length === 0) {
+       return items;
+     }
+
+     return items.filter(item => {
+       return item.name.includes(term);
+      //  return item.name.indexOf(term) > -1
+     })
+ }
+
+//  этот  метод изменяет state.term
+ onUpdateSearch =  (str) => {
+   this.setState({term: str});
+ }
+
+ //  этот  метод для изменения кнопок Вместо filterBtn может быть любое имя
+ filterPost =  (arr, filterBtn) => {
+  switch (filterBtn) {
+    case 'like':  //случай для повышенной зп.
+      return arr.filter(item => item.like);
+    case 'salary': // з.п > 1000
+      return arr.filter(item => item.salary > 1000);
+    default: 
+      return arr;
+  }
+}
+
+
+// этот  метод для фильтрации по кнопкам.
+onBtnFilterSelect = (btn) => {
+  this.setState({filterBtn: btn})
+}
  
  render() {
-   const prize = this.state.data.filter(item =>  item.increase).length;
+   const {data, term, filterBtn} = this.state;
+   const prize = data.filter(item =>  item.increase).length;
+   const visibleData = this.filterPost(this.searchEmployee(data, term), filterBtn );  // это отфильтрованный массив по строчке term, которая приходит из другого компанента + фильтрация по кнопкам
 
   return (
     <div className="app">
         <AppInfo  countEmployees={this.state.data.length} prize={prize}/>
 
       <div className="search-panel">
-        <SearchPanel />
-        <AppFilter />
+        <SearchPanel onUpdateSearch = {this.onUpdateSearch}/>
+        <AppFilter filterBtn = {filterBtn} onBtnFilterSelect={this.onBtnFilterSelect}/>
       </div>
 
-      <EmployeesList  data={this.state.data} onDelete={ this.deleteItem } onToggleProp={this.onToggleProp} />
+      <EmployeesList  data={visibleData} onDelete={ this.deleteItem } onToggleProp={this.onToggleProp} />
       <EmployeesAddForm  onAdd={this.addItem} />
     </div>
   );
