@@ -3,10 +3,10 @@
 
 ### Stack:    
 :green_circle: HTML5       
-:green_circle: Bootstrap 
-:green_circle: CSS
-:green_circle: JS (ECMA6)              
-:green_circle: React  
+:green_circle: Bootstrap    
+:green_circle: CSS   
+:green_circle: JS (ECMA6)                 
+:green_circle: React     
 
 ### App gif:   
 
