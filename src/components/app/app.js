@@ -15,9 +15,9 @@ class App extends Component {
     this.state = {
        // имитируем сервер для практики пропсов
       data: [
-        {name:"Asel", salary: 600000, increase: false, like: true, id: 1 },
-        {name:"Busel", salary: 68000, increase: false, like: false, id: 2},
-        {name:"Tosel", salary: 90000, increase: true, like: false, id: 3},
+        {name:"Asel", salary: 10000000, increase: false, like: true, id: 1 },
+        {name:"Busel", salary: 9000000, increase: false, like: false, id: 2},
+        {name:"Tosel", salary: 9000000, increase: true, like: false, id: 3},
       ],
       term: '',
       filterBtn: 'all'
@@ -52,7 +52,7 @@ addItem = (name, salary) => {
   });
 } 
 
-onToggleProp = (id, prop) => { //переключатель с true  на false. Общий и для звезды и для премии
+onToggleProp = (id, prop) => { //переключатель Общий и для звезды и для премии
   this.setState(({data}) => ({
     data: data.map(item => {
       if(item.id === id) {
@@ -64,7 +64,7 @@ onToggleProp = (id, prop) => { //переключатель с true  на false.
 }
 
 
-// метод для поиска items - где ищем, term - что ищем
+// метод для поиска, items - где ищем, term - что ищем
  searchEmployee = (items, term) => {
      if (term.length === 0) {
        return items;
@@ -76,12 +76,12 @@ onToggleProp = (id, prop) => { //переключатель с true  на false.
      })
  }
 
-//  этот  метод изменяет state.term
+//  этот метод изменяет state.term
  onUpdateSearch =  (str) => {
    this.setState({term: str});
  }
 
- //  этот  метод для изменения кнопок Вместо filterBtn может быть любое имя
+ //  этот метод для изменения кнопок Вместо filterBtn может быть любое имя
  filterPost =  (arr, filterBtn) => {
   switch (filterBtn) {
     case 'like':  //случай для повышенной зп.
@@ -94,7 +94,7 @@ onToggleProp = (id, prop) => { //переключатель с true  на false.
 }
 
 
-// этот  метод для фильтрации по кнопкам.
+// фильтрация по кнопкам.
 onBtnFilterSelect = (btn) => {
   this.setState({filterBtn: btn})
 }
@@ -102,7 +102,7 @@ onBtnFilterSelect = (btn) => {
  render() {
    const {data, term, filterBtn} = this.state;
    const prize = data.filter(item =>  item.increase).length;
-   const visibleData = this.filterPost(this.searchEmployee(data, term), filterBtn );  // это отфильтрованный массив по строчке term, которая приходит из другого компанента + фильтрация по кнопкам
+   const visibleData = this.filterPost(this.searchEmployee(data, term), filterBtn );  // это отфильтрованный массив по строчке term, которая приходит из другого компонента + фильтрация по кнопкам
 
   return (
     <div className="app">
